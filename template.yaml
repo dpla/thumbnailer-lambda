@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: thumbnailer-lambda
+Globals:
+  Function:
+    Timeout: 180
+  Api:
+    TracingEnabled: true
+Resources:
+  Thumbnailer:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      CodeUri: ./thumbnailer
+      Architectures:
+        - x86_64
+      Events:
+        Thumbnailer:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-east-1:283408157088:thumbp-image
+            BatchSize: 10
+            Enabled: true
+    Metadata:
+      DockerTag: nodejs20.x-v1
+      DockerContext: ./thumbnailer
+      Dockerfile: Dockerfile
