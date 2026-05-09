@@ -60,6 +60,7 @@ export const lambdaHandler = async (event, context) => {
             Bucket: bucket,
             Key: key,
             Body: thumbnail,
+            ContentType: "image/jpeg",
             ACL: "public-read",
           })
         );
